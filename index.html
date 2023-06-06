@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<title>Beyblade images</title>
+<style>
+    img {
+        max-width:min(50%,50em);
+    }
+    body>details {
+        margin:.5em 0;
+        user-select: none;
+    }
+    body>details>summary {
+        background: black;color:white;
+        padding:.1em .2em;
+    }
+</style>
+<a href="https://twitter.com/bbb2015images">BBB Parts</a>
+<script>
+    const E = (el, attr) => Object.assign(document.createElement(el), attr ?? {});
+    E.details = ({summary, content}) => {
+        let details = E('details');
+        details.replaceChildren(E('summary', {textContent: summary}), ...content ?? []);
+        return details;
+    }
+    E.a_img = ({src}) => E('a', {href: src}).appendChild(E('img', {src, alt: src})).parentElement;
+    
+    const classfications = {
+        "MFB Instruction": ['Bey', 'RB', 'Set', 'Tool'],
+        "MFB HK Catalog": ['S1', 'S2', 'S3', 'S4']
+    }
+
+    fetch('lists.json').then(resp => resp.json()).then(lists => 
+        Object.entries(lists).forEach(([folder, files]) => {
+            let details = document.body.appendChild(E.details({summary: folder}));
+            classfications[folder] ? classfications[folder].forEach(t => details.append(E.details({
+                summary: t,
+                content: files.filter(f => f.startsWith(t)).map(f => E.a_img({src: `${folder}/${f}`}))
+            }))) : details.append(...files.map(f => E.a_img({src: `${folder}/${f}`})));
+        })
+    )
+</script>
