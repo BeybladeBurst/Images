@@ -12,6 +12,9 @@
         background: black;color:white;
         padding:.1em .2em;
     }
+    details details {
+        max-width:50em;
+    }
 </style>
 <a href="https://twitter.com/bbb2015images">BBB Parts</a>
 <script>
@@ -21,7 +24,7 @@
         details.replaceChildren(E('summary', {textContent: summary}), ...content ?? []);
         return details;
     }
-    E.a_img = ({src}) => E('a', {href: src}).appendChild(E('img', {src, alt: src})).parentElement;
+    E.a_img = ({src}) => E('a', {href: src, target: '_blank'}).appendChild(E('img', {src, alt: src})).parentElement;
     
     const classfications = {
         "MFB Instruction": ['Bey', 'RB', 'Set', 'Tool'],
